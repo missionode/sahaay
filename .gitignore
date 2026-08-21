@@ -1,0 +1,9 @@
+.DS_Store
+test-results/
+node_modules/
+npm-debug.log*
+.codex/
+Loop/
+HANDOFF.md
+sahaay logo.png
+sahaay mark logo.png

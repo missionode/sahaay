@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Sahaay role demo app views for reporter, dispatcher and response unit accounts." />
+    <title>Sahaay — Role demo view</title>
+    <link rel="icon" href="assets/sahaay-mark-logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/sahaay-mark-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="demo-view.css" />
+  </head>
+  <body class="role-demo-page">
+    <div class="noise" aria-hidden="true"></div>
+    <main class="role-app">
+      <header class="role-appbar">
+        <a class="app-brand" href="demo-login.html" aria-label="Back to Sahaay demo accounts"><img class="brand-mark-img" src="assets/sahaay-mark-logo.png" alt="" /><span>SAHAAY</span></a>
+        <div class="app-actions">
+          <button class="icon-button" id="settingsToggle" type="button" aria-label="Open demo settings" aria-expanded="false" aria-controls="settingsPanel">⚙</button>
+          <a class="account-link" href="demo-login.html">Accounts</a>
+        </div>
+      </header>
+
+      <section class="profile-strip" aria-label="Current demo user">
+        <div class="profile-chip">
+          <span class="profile-avatar" id="profileAvatar">MR</span>
+          <div>
+            <strong id="profileName">Maya Rao</strong>
+            <small id="profileRole">Reporter demo profile</small>
+          </div>
+        </div>
+        <span class="demo-pill">Synthetic demo</span>
+      </section>
+
+      <nav class="role-tabs" aria-label="Switch demo role">
+        <button class="role-tab" data-role="reporter" type="button">Reporter</button>
+        <button class="role-tab" data-role="dispatcher" type="button">Dispatcher</button>
+        <button class="role-tab" data-role="unit" type="button">Response unit</button>
+      </nav>
+
+      <section class="settings-panel" id="settingsPanel" hidden aria-label="Demo settings">
+        <label>
+          <span><strong>Location context</strong><small>Share synthetic GPS and tower context</small></span>
+          <input id="settingLocation" type="checkbox" checked />
+        </label>
+        <label>
+          <span><strong>Photo evidence</strong><small>Allow local attachment state in the reporter view</small></span>
+          <input id="settingPhoto" type="checkbox" checked />
+        </label>
+        <label>
+          <span><strong>Call audio</strong><small>Request microphone with the demo video call</small></span>
+          <input id="settingAudio" type="checkbox" checked />
+        </label>
+      </section>
+
+      <section class="incident-band" aria-label="Active synthetic incident">
+        <div>
+          <small>INC-2048</small>
+          <h1 id="viewTitle">Reporter view</h1>
+        </div>
+        <div class="incident-state">
+          <span id="incidentState">Draft report</span>
+          <strong id="incidentTime">--:--:--</strong>
+        </div>
+      </section>
+
+      <section class="role-screen" data-screen="reporter" aria-label="Reporter view">
+        <div class="screen-primary">
+          <div class="panel-heading-row">
+            <div>
+              <small>Reporter intake</small>
+              <h2>Start the incident report</h2>
+            </div>
+            <span class="status-token" id="reporterStatus">Draft</span>
+          </div>
+          <div class="mode-control" aria-label="Reporter situation">
+            <button class="mode-option active" data-reporter-mode="self" type="button">For myself</button>
+            <button class="mode-option" data-reporter-mode="other" type="button">For someone else</button>
+          </div>
+          <label class="field-block">
+            <span>Observed situation optional</span>
+            <textarea id="reporterNote" rows="3" placeholder="Optional. The dispatcher can note details during the call."></textarea>
+          </label>
+          <div class="sensor-grid">
+            <div class="metric"><span>Location</span><strong id="reporterLocation">12.9716 N, 77.5946 E</strong></div>
+            <div class="metric"><span>Tower</span><strong>KRM-S03</strong></div>
+            <div class="metric"><span>Battery</span><strong>62%</strong></div>
+          </div>
+          <div class="tool-row" aria-label="Optional pre-call evidence">
+            <button class="secondary-action" id="photoAction" type="button">▧ Add photo</button>
+            <input id="photoInput" type="file" accept="image/*" capture="environment" hidden />
+          </div>
+          <button class="primary-action" id="sendReport" type="button">Start report and call dispatcher <span>→</span></button>
+          <section class="video-call-card" id="videoCallCard" hidden aria-label="Live demo video call with dispatcher">
+            <div class="call-stage">
+              <img class="call-backdrop" src="assets/tree-blocked-vehicle-scene.png" alt="Synthetic tree-blocked vehicle scene used as a privacy-preserving call backdrop" />
+              <div class="call-shade" aria-hidden="true"></div>
+              <div class="recording-indicator"><i></i><span>LIVE REC</span></div>
+              <div class="dispatcher-tile">
+                <span class="dispatcher-avatar">AN</span>
+                <div>
+                  <strong>Dispatcher Arjun</strong>
+                  <small>Connected</small>
+                </div>
+              </div>
+              <div class="selfie-tile">
+                <video id="selfiePreview" autoplay muted playsinline hidden></video>
+                <div class="camera-fallback" id="cameraFallback">MR</div>
+                <span>Selfie camera</span>
+              </div>
+              <div class="call-caption">
+                <strong>Video call connected</strong>
+                <small id="callStatus">Requesting front camera for demo preview</small>
+              </div>
+            </div>
+            <div class="call-controls">
+              <button class="secondary-action" id="muteCall" type="button">Mute mic</button>
+              <button class="secondary-action danger" id="endCall" type="button">End demo call</button>
+            </div>
+          </section>
+        </div>
+        <aside class="screen-secondary">
+          <small>Reporter safety</small>
+          <h3>What dispatch receives</h3>
+          <ul class="brief-list">
+            <li><span>Reporter</span><strong id="reporterBriefMode">Self-reporting</strong></li>
+            <li><span>Evidence</span><strong id="evidenceState">No media attached</strong></li>
+            <li><span>Audio</span><strong id="audioState">Permission not requested</strong></li>
+            <li><span>Call</span><strong id="callBriefState">Not connected</strong></li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="role-screen" data-screen="dispatcher" aria-label="Dispatcher view" hidden>
+        <div class="screen-primary">
+          <div class="panel-heading-row">
+            <div>
+              <small>Dispatch queue</small>
+              <h2>Verify and assign the incident</h2>
+            </div>
+            <span class="status-token orange" id="dispatcherStatus">Triaging</span>
+          </div>
+          <div class="queue-item active">
+            <span>Tree-fall rescue</span>
+            <strong>Koramangala signal</strong>
+            <small>92% context confidence</small>
+          </div>
+          <section class="dispatcher-call-card" id="dispatcherCallCard" aria-label="Dispatcher live video call with reporter">
+            <div class="dispatcher-call-stage">
+              <img class="call-backdrop dispatcher-scene-feed" src="assets/tree-blocked-vehicle-scene.png" alt="Synthetic tree-blocked vehicle scene prioritized in the dispatcher call view" />
+              <div class="call-shade" aria-hidden="true"></div>
+              <div class="recording-indicator"><i></i><span id="dispatcherRecordingLabel">CALL WAITING</span></div>
+              <div class="scene-analysis-label">
+                <strong>Incident scene feed</strong>
+                <small>Primary view for dispatcher analysis</small>
+              </div>
+              <div class="reporter-feed reporter-thumbnail">
+                <video id="dispatcherReporterPreview" autoplay muted playsinline hidden></video>
+                <div class="camera-fallback reporter-fallback" id="dispatcherReporterFallback">MR</div>
+                <span>Reporter Maya Rao</span>
+              </div>
+              <div class="dispatcher-self-tile">
+                <span class="dispatcher-avatar">AN</span>
+                <div>
+                  <strong>Dispatcher Arjun</strong>
+                  <small>Ops console</small>
+                </div>
+              </div>
+              <div class="call-caption">
+                <strong id="dispatcherCallTitle">Incident scene with reporter call</strong>
+                <small id="dispatcherCallStatus">Scene feed is prioritized; waiting for reporter connection</small>
+              </div>
+            </div>
+            <div class="call-controls">
+              <button class="secondary-action" id="answerDispatcherCall" type="button">Answer call</button>
+              <button class="secondary-action" id="captureCallNotes" type="button">Mark details captured</button>
+            </div>
+          </section>
+          <label class="field-block dispatcher-note">
+            <span>Dispatcher notes from video call</span>
+            <textarea rows="4" placeholder="Type the reporter's spoken details here during the call."></textarea>
+          </label>
+          <div class="brief-grid">
+            <div><span>Reporter says</span><strong>Live call open; details can be captured by dispatcher.</strong></div>
+            <div><span>Verified context</span><strong>GPS, tower KRM-S03 and battery context.</strong></div>
+            <div><span>Needs confirmation</span><strong>Occupants responsive, injury status, all doors jammed, police control and tree hazard.</strong></div>
+          </div>
+          <div class="tool-row">
+            <button class="secondary-action" id="verifyBrief" type="button">✓ Verify brief</button>
+            <button class="primary-action compact" id="assignRecommended" type="button">Dispatch Fire + EMS + Police</button>
+            <button class="secondary-action" id="assignUnit" type="button">◎ Assign Ambulance A-27</button>
+          </div>
+          <section class="availability-panel" aria-labelledby="availabilityTitle">
+            <div class="availability-header">
+              <div>
+                <span>Multi-agency availability</span>
+                <h3 id="availabilityTitle">1000 m primary radius</h3>
+              </div>
+              <strong id="availableUnitCount">EMS, police, fire mapped</strong>
+            </div>
+            <div class="dispatch-recommendation">
+              <span>Recommended for this tree-fall obstruction</span>
+              <strong>Send fire/rescue for tree cutting and safe exit access, ambulance for medical assessment, and police for traffic/crowd control. Keep EMS backup ready.</strong>
+            </div>
+            <div class="unit-candidates" aria-label="Available emergency services near the incident">
+              <article class="unit-candidate primary-unit ems-unit">
+                <div>
+                  <span>EMS / Ambulance</span>
+                  <h4>Ambulance A-27</h4>
+                  <small>740 m · ETA 04:20 · Medical assessment and safe evacuation</small>
+                </div>
+                <strong>Available</strong>
+              </article>
+              <article class="unit-candidate police-unit">
+                <div>
+                  <span>Police</span>
+                  <h4>Patrol P-12</h4>
+                  <small>520 m · ETA 03:10 · Traffic control and scene safety</small>
+                </div>
+                <button class="secondary-action compact-action" id="assignPolice" type="button">Assign police</button>
+              </article>
+              <article class="unit-candidate fire-unit">
+                <div>
+                  <span>Fire / Rescue</span>
+                  <h4>Fire Rescue F-03</h4>
+                  <small>1.18 km · ETA 06:10 · Tree cutting, branch stabilization and safe exit access</small>
+                </div>
+                <button class="secondary-action compact-action" id="assignFire" type="button">Assign fire</button>
+              </article>
+              <article class="unit-candidate backup-unit">
+                <div>
+                  <span>EMS backup</span>
+                  <h4>Ambulance B-14</h4>
+                  <small>960 m · ETA 05:35 · Backup medical assessment if injuries are found</small>
+                </div>
+                <button class="secondary-action compact-action" id="assignBackup" type="button">Hold backup</button>
+              </article>
+            </div>
+            <div class="code-blue-panel" id="codeBluePanel">
+              <div>
+                <span>Catastrophe escalation</span>
+                <h3>Code Blue mode</h3>
+                <p>Use only when the dispatcher confirms a mass-casualty or fast-escalating incident. This demo will mark EMS, police and fire/rescue units for transit.</p>
+              </div>
+              <button class="primary-action compact code-blue-button" id="openCodeBlue" type="button">Activate Code Blue</button>
+            </div>
+            <div class="code-blue-confirm" id="codeBlueConfirm" hidden>
+              <label class="field-block">
+                <span>Confirmation required</span>
+                <input id="codeBlueInput" type="text" autocomplete="off" placeholder="Type CODE BLUE to activate EMS, police and fire/rescue" />
+              </label>
+              <div class="tool-row">
+                <button class="secondary-action danger" id="confirmCodeBlue" type="button">Confirm Code Blue</button>
+                <button class="secondary-action" id="cancelCodeBlue" type="button">Cancel</button>
+              </div>
+              <small id="codeBlueStatus">No units will move until confirmation is entered.</small>
+            </div>
+          </section>
+        </div>
+        <aside class="screen-secondary">
+          <small>Dispatcher timeline</small>
+          <h3>Operational handoff</h3>
+          <ol class="timeline-list" id="dispatcherTimeline">
+            <li><strong>Report received</strong><span>Reporter context loaded</span></li>
+            <li><strong>Video call requested</strong><span>Reporter can explain the situation live</span></li>
+            <li><strong>Context assembled</strong><span>Location, tower and battery checked</span></li>
+            <li><strong>Multi-agency scan</strong><span>Ambulance, police and fire/rescue options mapped</span></li>
+          </ol>
+        </aside>
+      </section>
+
+      <section class="role-screen" data-screen="unit" aria-label="Response unit view" hidden>
+        <div class="screen-primary">
+          <div class="panel-heading-row">
+            <div>
+              <small>EMS ambulance</small>
+              <h2>Assess after rescue access</h2>
+            </div>
+            <span class="status-token blue" id="unitStatus">Assigned</span>
+          </div>
+          <div class="route-map">
+            <img src="assets/incident-map-evaluator-v2.jpg" alt="Synthetic city map with fire, EMS, police and backup routes to the incident" />
+            <span>ETA 04:20</span>
+          </div>
+          <div class="brief-grid">
+            <div><span>Access point</span><strong>Stage south side until Fire F-03 clears branches and creates a safe exit.</strong></div>
+            <div><span>Other agencies</span><strong>Fire F-03 for tree cutting; Police P-12 for road and crowd control.</strong></div>
+            <div><span>Reporter evidence</span><strong>Photo optional; live call context available to dispatcher.</strong></div>
+          </div>
+          <div class="tool-row">
+            <button class="secondary-action" id="enRoute" type="button">⌖ En route</button>
+            <button class="secondary-action" id="arrived" type="button">✓ Arrived</button>
+            <button class="primary-action compact" id="handoffComplete" type="button">Close handoff</button>
+          </div>
+          <section class="handoff-closure-panel" id="handoffClosurePanel" hidden aria-labelledby="handoffClosureTitle">
+            <div class="handoff-closure-heading">
+              <span>Handoff closure</span>
+              <h3 id="handoffClosureTitle">Submit final status comment</h3>
+              <small>Choose a common case and add custom detail if the dispatcher needs more context.</small>
+            </div>
+            <div class="closure-options" role="group" aria-label="Common handoff closure status comments">
+              <button class="closure-option active" type="button" data-closure="No injuries found" data-detail="Two occupants evacuated, alert and walking. Vitals stable. No transport required.">No injuries found</button>
+              <button class="closure-option" type="button" data-closure="Stabilized on scene" data-detail="Patient stabilized on scene; no immediate transport marked in this demo.">Stabilized on scene</button>
+              <button class="closure-option" type="button" data-closure="Police managing scene" data-detail="Scene safety and traffic control handed to Police P-12.">Police managing scene</button>
+              <button class="closure-option" type="button" data-closure="Fire/rescue cleared access" data-detail="Fire Rescue F-03 stabilized branches and created safe exit access without forcing doors.">Fire/rescue cleared access</button>
+              <button class="closure-option" type="button" data-closure="Need EMS backup" data-detail="Ambulance B-14 requested as backup because injury or transport need changed.">Need EMS backup</button>
+              <button class="closure-option" type="button" data-closure="No occupant found" data-detail="No occupant found at the reported vehicle; dispatcher review required.">No occupant found</button>
+            </div>
+            <label class="field-block">
+              <span>Custom detail optional</span>
+              <textarea id="handoffCustomDetail" rows="3" placeholder="Add specific scene notes, patient status, agency handoff, or next action."></textarea>
+            </label>
+            <div class="tool-row">
+              <button class="primary-action compact" id="submitHandoffComment" type="button">Submit status comment</button>
+              <button class="secondary-action" id="cancelHandoffComment" type="button">Cancel</button>
+            </div>
+            <small id="handoffCommentPreview">Selected: No injuries found</small>
+          </section>
+        </div>
+        <aside class="screen-secondary">
+          <small>Field checklist</small>
+          <h3>Before assessment</h3>
+          <ul class="brief-list">
+            <li><span>Route</span><strong>2.4 km</strong></li>
+            <li><span>Tower</span><strong>KRM-S03</strong></li>
+            <li><span>Case owner</span><strong>Dispatcher Arjun</strong></li>
+            <li><span>Unit type</span><strong>EMS ambulance</strong></li>
+            <li><span>Last update</span><strong id="unitUpdate">Awaiting movement</strong></li>
+            <li><span>Closure comment</span><strong id="handoffCommentStatus">Not submitted</strong></li>
+            <li><span>Closure detail</span><strong id="handoffCommentDetail">Awaiting close</strong></li>
+          </ul>
+        </aside>
+      </section>
+    </main>
+    <script src="demo-view.js"></script>
+  </body>
+</html>

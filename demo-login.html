@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Sahaay centralised demo access with synthetic accounts for reporter, dispatcher and response unit views." />
+    <title>Sahaay — Centralised demo access</title>
+    <link rel="icon" href="assets/sahaay-mark-logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/sahaay-mark-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="demo-login.css" />
+  </head>
+  <body class="demo-access-page">
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header demo-header">
+      <a class="brand" href="index.html" aria-label="Sahaay home"><img class="brand-mark-img" src="assets/sahaay-mark-logo.png" alt="" /><span>SAHAAY</span></a>
+      <nav class="nav-links" id="demoAccessNav" aria-label="Demo navigation">
+        <a href="index.html#build">Build brief</a>
+        <a href="simulation.html">3-minute simulation</a>
+        <a href="demo-login.html">Role accounts</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="demoAccessNav"><span></span><span></span><span></span></button>
+      <a class="text-link" href="index.html">← Back to landing</a>
+    </header>
+    <main class="demo-access shell">
+      <div class="demo-access-intro">
+        <p class="eyebrow"><span class="pulse-dot"></span> Centralised demo access</p>
+        <h1>Choose a role.<br /><em>See the whole system.</em></h1>
+        <p>These are synthetic accounts for the hackathon prototype. Each launch opens the matching mobile-first app view for the final demo scenario: Maya reports a tree-blocked van, Arjun coordinates the response, and the field unit closes a no-injury handoff.</p>
+        <div class="demo-notice"><span>ⓘ</span><strong>Demo environment only.</strong> No real credentials, emergency systems, personal data or live dispatch are connected.</div>
+      </div>
+      <section class="simulation-entry" aria-label="Guided evaluator simulation">
+        <div>
+          <span>Recommended evaluator path</span>
+          <h2>Start with the 3-minute evaluator simulation.</h2>
+          <p>This is the canonical product demo. See reporter, dispatcher and response-unit screens move together through the tree-fall rescue, with pause, continue, step, restart and full-screen exit controls.</p>
+        </div>
+        <a class="simulation-launch" href="simulation.html">Start evaluator simulation <span>↗</span></a>
+      </section>
+      <section class="role-grid" aria-label="Synthetic demo accounts">
+        <article class="role-card reporter-card">
+          <div class="role-card-top"><span class="role-index">01</span><span class="role-badge">REPORTER</span></div>
+          <div class="role-icon">⌁</div><h2>Report an incident</h2><p>Report for yourself or someone else with one tap, share location/tower context, add optional photo evidence and join dispatcher guidance.</p>
+          <div class="mock-login"><div><span>DEMO NAME</span><strong>Maya Rao</strong></div><div><span>ACCESS ID</span><strong>reporter.demo</strong></div><div><span>PASSCODE</span><strong>Sahaay-2048</strong></div></div>
+          <button class="role-launch" data-role="reporter" type="button">Launch reporter view <span>↗</span></button>
+        </article>
+        <article class="role-card dispatcher-card">
+          <div class="role-card-top"><span class="role-index">02</span><span class="role-badge">DISPATCHER</span></div>
+          <div class="role-icon">⌬</div><h2>Triage the signal</h2><p>Review the live bridge, verify all doors jammed, decide Code Blue is not needed, and dispatch fire/rescue, police and EMS.</p>
+          <div class="mock-login"><div><span>DEMO NAME</span><strong>Arjun Nair</strong></div><div><span>ACCESS ID</span><strong>dispatch.demo</strong></div><div><span>PASSCODE</span><strong>Sahaay-OPS-27</strong></div></div>
+          <button class="role-launch" data-role="dispatcher" type="button">Launch dispatcher view <span>↗</span></button>
+        </article>
+        <article class="role-card unit-card">
+          <div class="role-card-top"><span class="role-index">03</span><span class="role-badge">RESPONSE UNIT</span></div>
+          <div class="role-icon">◎</div><h2>Respond with context</h2><p>See the route, tree hazard, fire/rescue access plan, police traffic control and close with the final no-injury status.</p>
+          <div class="mock-login"><div><span>UNIT</span><strong>Ambulance A-27</strong></div><div><span>ACCESS ID</span><strong>unit-a27.demo</strong></div><div><span>PASSCODE</span><strong>Sahaay-UNIT-27</strong></div></div>
+          <button class="role-launch" data-role="unit" type="button">Launch response unit view <span>↗</span></button>
+        </article>
+      </section>
+      <div class="demo-access-footer"><span>Suggested walkthrough: 3-minute simulation → Reporter → Dispatcher → Response Unit</span><span>All identities and credentials are fictional.</span></div>
+    </main>
+    <script src="menu.js"></script>
+    <script src="demo-login.js"></script>
+  </body>
+</html>

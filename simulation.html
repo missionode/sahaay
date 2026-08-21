@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Sahaay guided evaluator simulation showing a tree-fall vehicle rescue across reporter, dispatcher, fire/rescue, police and EMS workflows." />
+    <title>Sahaay — Guided emergency response simulation</title>
+    <link rel="icon" href="assets/sahaay-mark-logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/sahaay-mark-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="simulation.css" />
+  </head>
+  <body class="simulation-page">
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header simulation-header">
+      <a class="brand" href="index.html" aria-label="Sahaay home"><img class="brand-mark-img" src="assets/sahaay-mark-logo.png" alt="" /><span>SAHAAY</span></a>
+      <nav class="nav-links" id="simulationNav" aria-label="Simulation navigation">
+        <a href="index.html#build">Build brief</a>
+        <a href="demo-login.html">Role accounts</a>
+        <a href="demo-view.html?role=dispatcher">Dispatcher view</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="simulationNav"><span></span><span></span><span></span></button>
+      <a class="header-cta" href="demo-login.html">Individual views <span>↗</span></a>
+    </header>
+
+    <main class="simulation-shell">
+      <section class="sim-hero" aria-labelledby="simulationTitle">
+        <div>
+          <p class="eyebrow"><span class="pulse-dot"></span> Guided evaluator simulation</p>
+          <h1 id="simulationTitle">Watch one tree-fall rescue move through the whole system.</h1>
+        </div>
+        <p>
+          This is the main evaluator demo: 3 minutes, pauseable, no login and fully synthetic.
+          Watch reporter, dispatcher and response-unit screens move together from first report to no-injury closure.
+        </p>
+      </section>
+
+      <section class="sim-controls" aria-label="Simulation controls">
+        <div class="sim-clock-card">
+          <span>Scenario clock</span>
+          <strong id="elapsedTime">00:00</strong>
+          <div class="progress-track" aria-hidden="true"><i id="timelineProgress"></i></div>
+        </div>
+        <div class="control-buttons">
+          <button class="button button-primary" id="startSimulation" type="button">Start 3-minute journey <span>→</span></button>
+          <button class="sim-control" id="pauseSimulation" type="button">Pause</button>
+          <button class="sim-control" id="continueSimulation" type="button">Continue</button>
+          <button class="sim-control" id="stepSimulation" type="button">Step forward</button>
+          <button class="sim-control" id="restartSimulation" type="button">Restart</button>
+          <button class="sim-control exit-control" id="exitJourney" type="button">Exit full view</button>
+        </div>
+        <div class="sim-toggles">
+          <label><input id="autoPauseToggle" type="checkbox" /> Pause after each chapter</label>
+          <label><input id="narrationToggle" type="checkbox" checked /> Dialogue audio</label>
+          <small id="audioStatus">Multi-speaker dialogue audio ready</small>
+        </div>
+      </section>
+
+      <section class="evaluator-note" aria-live="polite">
+        <span id="stepKicker">Checkpoint 00</span>
+        <h2 id="stepTitle">Ready for walkthrough</h2>
+        <p id="stepNote">This is the complete product proof. Start the journey to enter the full-viewport evaluator show.</p>
+        <small id="spokenCaption">Captions stay visible even when voice narration is off.</small>
+      </section>
+
+      <nav class="step-jump" aria-label="Jump to simulation checkpoint">
+        <button type="button" data-step="0">Ready</button>
+        <button type="button" data-step="1">Maya reports</button>
+        <button type="button" data-step="3">Camera guide</button>
+        <button type="button" data-step="4">Do / don't</button>
+        <button type="button" data-step="7">Code Blue</button>
+        <button type="button" data-step="8">Dispatch</button>
+        <button type="button" data-step="9">Fire rescue</button>
+        <button type="button" data-step="10">Police loop</button>
+        <button type="button" data-step="11">EMS bridge</button>
+        <button type="button" data-step="15">Closed</button>
+      </nav>
+
+      <section class="simulation-cockpit" aria-label="Sahaay synchronized three-role simulation">
+        <article class="device-frame phone-device" id="reporterDevice">
+          <div class="device-topbar">
+            <span>Reporter mobile</span>
+            <strong id="reporterStatusSim">Ready</strong>
+          </div>
+          <div class="mobile-screen">
+            <div class="mobile-profile">
+              <span class="sim-avatar orange">MR</span>
+              <div>
+                <strong>Maya Rao</strong>
+                <small id="reporterModeSim">Self-reporting</small>
+              </div>
+            </div>
+            <div class="scene-card">
+              <img src="assets/tree-blocked-vehicle-scene.png" alt="Synthetic non-graphic scene of a large vehicle blocked by a fallen tree" />
+              <span class="live-chip" id="reporterLiveChip">STANDBY</span>
+              <small id="reporterSceneLabel">Synthetic media ready</small>
+            </div>
+            <button class="sos-sim-button" id="reporterActionSim" type="button">Start report</button>
+            <div class="sim-metrics">
+              <div><span>Location</span><strong id="reporterLocationSim">Waiting</strong></div>
+              <div><span>Tower</span><strong id="reporterTowerSim">—</strong></div>
+              <div><span>Battery</span><strong id="reporterBatterySim">—</strong></div>
+              <div><span>Call bridge</span><strong id="reporterCallBridgeSim">Not connected</strong></div>
+            </div>
+            <section class="safety-guidance-card" aria-label="Dispatcher safety guidance for reporter">
+              <span>Arjun guidance</span>
+              <strong id="safetyGuidanceTitle">Wait for dispatcher</strong>
+              <ul id="safetyGuidanceList">
+                <li>Start the journey to see live do and don't instructions.</li>
+              </ul>
+            </section>
+            <div class="message-stack" id="reporterMessages"></div>
+          </div>
+        </article>
+
+        <article class="device-frame tablet-device" id="dispatcherDevice">
+          <div class="device-topbar">
+            <span>Dispatcher tablet</span>
+            <strong id="dispatcherStatusSim">Waiting</strong>
+          </div>
+          <div class="tablet-screen">
+            <div class="role-splash" id="dispatcherSplash" aria-hidden="true">
+              <img class="splash-logo" src="assets/sahaay-mark-logo.png" alt="" />
+              <strong>Sahaay dispatcher</strong>
+              <small>Waiting for Maya’s one-tap report.</small>
+            </div>
+            <div class="dispatch-stage">
+              <div class="dispatch-scene">
+                <img src="assets/tree-blocked-vehicle-scene.png" alt="Synthetic tree-blocked vehicle scene prioritized for dispatcher analysis" />
+                <span class="recording-pill" id="dispatcherRecSim">CALL WAITING</span>
+                <div class="reporter-thumbnail-sim">
+                  <span class="sim-avatar orange">MR</span>
+                  <small>Reporter</small>
+                </div>
+                <div class="scene-caption">
+                  <strong id="dispatcherSceneTitle">No active incident</strong>
+                  <small id="dispatcherSceneDetail">Scene feed appears when the reporter opens the guided call.</small>
+                </div>
+              </div>
+              <div class="incident-brief-sim">
+                <span>Incident brief</span>
+                <h2 id="dispatcherIncidentTitle">Awaiting signal</h2>
+                <div class="confidence-sim">
+                  <span>Confidence</span>
+                  <strong id="dispatcherConfidence">—</strong>
+                  <i id="dispatcherConfidenceBar"></i>
+                </div>
+                <div class="known-grid">
+                  <div>
+                    <small>Known</small>
+                    <ul id="knownList"></ul>
+                  </div>
+                  <div>
+                    <small>Needs confirmation</small>
+                    <ul id="needsList"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <section class="call-bridge-panel" aria-label="Live coordination call bridge">
+              <div class="call-bridge-heading">
+                <span>Live coordination call</span>
+                <strong id="callBridgeStatus">Not connected</strong>
+              </div>
+              <div class="participant-row">
+                <div class="participant-card" data-participant="reporter"><span class="sim-avatar orange">MR</span><div><strong>Reporter Maya</strong><small id="reporterParticipantState">Waiting</small></div></div>
+                <div class="participant-card" data-participant="dispatcher"><span class="sim-avatar lime">AN</span><div><strong>Dispatcher Arjun</strong><small id="dispatcherParticipantState">Ready</small></div></div>
+                <div class="participant-card" data-participant="unit"><span class="sim-avatar blue">A27</span><div><strong>Ambulance A-27</strong><small id="unitParticipantState">Not bridged</small></div></div>
+                <div class="participant-card" data-participant="police"><span class="sim-avatar navy">P12</span><div><strong>Police P-12</strong><small id="policeParticipantState">Standby</small></div></div>
+                <div class="participant-card" data-participant="fire"><span class="sim-avatar red">F03</span><div><strong>Fire F-03</strong><small id="fireParticipantState">Monitoring</small></div></div>
+              </div>
+              <p id="activeSpeakerLine">Call bridge opens only when the reporter starts the incident and dispatcher accepts the clarification flow.</p>
+            </section>
+
+            <section class="action-board" aria-label="Arjun's live dispatcher actions">
+              <div class="action-board-heading">
+                <span>Arjun's live actions</span>
+                <strong id="activeActionStatus">Waiting for report</strong>
+              </div>
+              <div class="action-buttons">
+                <button type="button" data-action="answer">Answer caller</button>
+                <button type="button" data-action="camera">Request safe camera</button>
+                <button type="button" data-action="guide">Give do / don't</button>
+                <button type="button" data-action="verify">Verify facts</button>
+                <button type="button" data-action="codeblue">Check Code Blue</button>
+                <button type="button" data-action="dispatch">Dispatch agencies</button>
+                <button type="button" data-action="fire">Loop fire rescue</button>
+                <button type="button" data-action="police">Loop police</button>
+                <button type="button" data-action="ems">Bridge ambulance</button>
+                <button type="button" data-action="close">Close no-injury</button>
+              </div>
+            </section>
+
+            <section class="agency-board" aria-label="Nearby units">
+              <article class="agency-card" data-agency="ems"><span>EMS</span><strong>Ambulance A-27</strong><small>740 m · ETA 04:20</small></article>
+              <article class="agency-card" data-agency="police"><span>Police</span><strong>Patrol P-12</strong><small>520 m · ETA 03:10</small></article>
+              <article class="agency-card" data-agency="fire"><span>Fire/rescue</span><strong>Fire Rescue F-03</strong><small>1.18 km · ETA 06:10 · Tree cutting</small></article>
+              <article class="agency-card" data-agency="backup"><span>EMS backup</span><strong>Ambulance B-14</strong><small>960 m · ETA 05:35</small></article>
+            </section>
+
+            <section class="timeline-board">
+              <div>
+                <span>Operational timeline</span>
+                <strong id="timelineCount">0 events</strong>
+              </div>
+              <ol id="simulationTimeline"></ol>
+            </section>
+          </div>
+        </article>
+
+        <article class="device-frame phone-device" id="unitDevice">
+          <div class="device-topbar">
+            <span>Response-unit mobile</span>
+            <strong id="unitStatusSim">Standby</strong>
+          </div>
+          <div class="mobile-screen">
+            <div class="role-splash" id="unitSplash" aria-hidden="true">
+              <img class="splash-logo" src="assets/sahaay-mark-logo.png" alt="" />
+              <strong>Response unit standby</strong>
+              <small>Route and handoff appear when Arjun dispatches EMS.</small>
+            </div>
+            <div class="mobile-profile">
+              <span class="sim-avatar blue">A27</span>
+              <div>
+                <strong>Ambulance A-27</strong>
+                <small>EMS response unit</small>
+              </div>
+            </div>
+            <div class="unit-map-sim">
+              <img src="assets/incident-map-evaluator-v2.jpg" alt="Synthetic route map for the assigned response unit with fire, EMS, police and backup markers" />
+              <span id="unitEtaSim">ETA —</span>
+            </div>
+            <div class="unit-brief-sim">
+              <div><span>Assignment</span><strong id="unitAssignmentSim">No active dispatch</strong></div>
+              <div><span>Access</span><strong id="unitAccessSim">Awaiting dispatcher</strong></div>
+              <div><span>Other agencies</span><strong id="unitAgenciesSim">None assigned</strong></div>
+              <div><span>Call bridge</span><strong id="unitCallBridgeSim">Not connected</strong></div>
+              <div><span>Closure</span><strong id="unitClosureSim">Not submitted</strong></div>
+            </div>
+            <div class="handoff-card-sim">
+              <span>Final handoff comment</span>
+              <strong id="handoffStatusSim">Pending</strong>
+              <small id="handoffDetailSim">Responder can close with a common case or custom detail.</small>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="simulation-disclosure">
+        <div>
+          <span>Prototype honesty</span>
+          <p>All people, locations, media, units, voice captions and timelines are synthetic. No live emergency system, personal data, camera, microphone or dispatch network is connected.</p>
+        </div>
+        <a class="text-link" href="demo-login.html">Explore individual role views <span>↗</span></a>
+      </section>
+    </main>
+    <audio id="storyAudio" preload="auto"></audio>
+    <script src="menu.js"></script>
+    <script src="simulation.js"></script>
+  </body>
+</html>

@@ -38,8 +38,15 @@ async function run() {
       assert(faviconHref && faviconHref.includes('sahaay-mark-logo.png'), `landing: wrong favicon ${faviconHref}`);
       const brandLogoSrc = await page.locator('.brand-logo').getAttribute('src');
       assert(brandLogoSrc && brandLogoSrc.includes('sahaay-logo.png'), `landing: wrong brand logo ${brandLogoSrc}`);
-      const heroSrc = await page.locator('.hero-visual-image img').getAttribute('src');
+      const heroSrc = await page.locator('.hero-visual-image > img:not(.hero-logo-overlay)').getAttribute('src');
       assert(heroSrc && heroSrc.includes('sahaay-hero-app-v3.jpg'), `landing: wrong hero src ${heroSrc}`);
+      const heroLogoSrc = await page.locator('.hero-logo-overlay').getAttribute('src');
+      assert(heroLogoSrc && heroLogoSrc.includes('sahaay-logo.png'), `landing: wrong hero logo overlay ${heroLogoSrc}`);
+      const heroRatio = await page.locator('.hero-visual-image').evaluate((element) => {
+        const rect = element.getBoundingClientRect();
+        return rect.width / rect.height;
+      });
+      assert(Math.abs(heroRatio - 1624 / 969) < 0.08, `landing: hero aspect ratio mismatch ${heroRatio}`);
       await expectText(page, '.mockup-badge', 'Hybrid emergency-response app', 'hero badge');
       await expectText(page, '#safety', 'Sahaay scales as a human-controlled layer', 'safe-scale section');
       await expectText(page, '#safety', 'AI supports triage; dispatchers decide.', 'safe-scale human control card');
@@ -60,6 +67,17 @@ async function run() {
       assert((await page.locator('#dispatcherDevice').getAttribute('class')).includes('active'), 'dispatcher device should become active');
       await page.locator('#exitJourney').click();
       assert(!(await page.locator('body').getAttribute('class')).includes('journey-mode'), 'simulation: should exit journey mode');
+    });
+
+    await withConsoleWatch(page, 'simulation call ring', async () => {
+      await page.goto(`${baseURL}/simulation.html`, { waitUntil: 'networkidle' });
+      await page.locator('.step-jump button[data-step="1"]').click();
+      await page.locator('#continueSimulation').click();
+      await expectText(page, '#audioStatus', 'Incoming reporter call ringing', 'simulation ring status');
+      await expectText(page, '#callBridgeStatus', 'Incoming reporter call', 'simulation ring bridge status');
+      await expectText(page, '#spokenCaption', 'Ring… Maya’s one-tap report is connecting', 'simulation ring caption');
+      assert((await page.locator('.call-bridge-panel').getAttribute('class')).includes('ringing'), 'call bridge should show ringing state');
+      await page.locator('#pauseSimulation').click();
     });
 
     await withConsoleWatch(page, 'role gateway', async () => {
@@ -98,7 +116,7 @@ async function run() {
       assert(await page.locator('#primaryNav').isVisible(), 'mobile nav should open after hamburger click');
       await expectText(page, '#primaryNav', 'Safety model', 'mobile nav contents');
       assert(await page.getByRole('link', { name: /Start 3-minute evaluator simulation/i }).first().isVisible(), 'mobile CTA should be visible');
-      assert(await page.locator('.hero-visual-image img').isVisible(), 'mobile hero image should be visible');
+      assert(await page.locator('.hero-visual-image > img:not(.hero-logo-overlay)').isVisible(), 'mobile hero image should be visible');
       const dimensions = await page.evaluate(() => ({
         innerWidth: window.innerWidth,
         scrollWidth: document.documentElement.scrollWidth,

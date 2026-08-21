@@ -6,8 +6,8 @@ Checked on: 2026-08-21
 ## Status summary
 
 - Prototype readiness: ready for local evaluator walkthrough, with headless browser smoke QA passed.
-- Public link readiness: GitHub Pages is suitable and `.nojekyll` is added, but not ready until the repo is pushed and Pages is enabled.
-- Submission package readiness: not ready until public deployment and video are complete.
+- Public link readiness: ready on GitHub Pages: `https://missionode.github.io/sahaay/`.
+- Submission package readiness: not ready until the under-2-minute video is complete.
 
 ## Brief checklist
 
@@ -25,7 +25,7 @@ Checked on: 2026-08-21
 | Do not access/interfere with live government systems | Pass | No live 108/112/government integrations are used. |
 | Do not use real sensitive data | Pass | Synthetic identities, locations, units, media and timeline. |
 | Do not present as official government product | Pass | Site says independent prototype, not official service. |
-| Live public browser link without access request | Pending/blocker | GitHub Pages from the repo root is suitable for this static prototype. Local server works and passed headless QA, but the repo still needs to be pushed and Pages enabled. |
+| Live public browser link without access request | Pass | GitHub Pages is enabled at `https://missionode.github.io/sahaay/`. Public URL returned HTTP 200 after build. |
 | Mock login credentials if needed | Pass | `demo-login.html` has reporter, dispatcher and response-unit demo accounts. |
 | One video no longer than two minutes | Pending/blocker | Need final recording: first minute citizen/demo, second minute build rationale. |
 | Project summary under 250 words | Pass | Final summary is saved in `SUBMISSION-SUMMARY.md` for the submission form and now mentions Codex CLI/headless QA usage. |
@@ -33,9 +33,8 @@ Checked on: 2026-08-21
 
 ## Recommended next order
 
-1. Push to GitHub, enable GitHub Pages from `main` / repo root, and verify the public URL on a clean browser/session.
-2. Record the under-2-minute submission video.
-3. Final pass on the public link: all links, favicon, assets, mobile viewport, demo credentials, mocked-data disclosures and simulation playback.
+1. Record the under-2-minute submission video.
+2. Final pass on the public link: all links, favicon, assets, mobile viewport, demo credentials, mocked-data disclosures and simulation playback.
 
 ## Headless QA evidence
 

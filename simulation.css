@@ -1020,6 +1020,23 @@
   transform: translateY(-2px);
 }
 
+.call-bridge-panel.ringing {
+  border-color: rgba(216, 246, 106, .72);
+  box-shadow:
+    0 0 0 7px rgba(216, 246, 106, .11),
+    0 18px 42px rgba(216, 246, 106, .13);
+}
+
+.call-bridge-panel.ringing .call-bridge-heading strong {
+  color: var(--lime);
+}
+
+.call-bridge-panel.ringing .participant-card[data-participant="reporter"],
+.call-bridge-panel.ringing .participant-card[data-participant="dispatcher"] {
+  border-color: rgba(216, 246, 106, .42);
+  animation: ringParticipantPulse .72s ease-in-out infinite;
+}
+
 @keyframes simFocusPulse {
   0%, 100% {
     outline-offset: 3px;
@@ -1027,6 +1044,16 @@
 
   50% {
     outline-offset: 7px;
+  }
+}
+
+@keyframes ringParticipantPulse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
   }
 }
 

@@ -1,4 +1,5 @@
 const FALLBACK_INTERVAL_MS = 5200;
+const CALL_RING_DURATION_MS = 1800;
 
 const seedState = {
   highlights: ['reporter'],
@@ -83,6 +84,7 @@ const beats = [
     id: 'maya-report',
     time: '00:06',
     audio: 'assets/dialogue/01-maya-report.wav',
+    ringBefore: true,
     focus: ['reporterAction', 'dispatcherBrief', 'callBridge'],
     kicker: 'Beat 01',
     title: 'Maya reports the incident',
@@ -874,6 +876,7 @@ const timelineCount = document.querySelector('#timelineCount');
 const simulationTimeline = document.querySelector('#simulationTimeline');
 const agencyCards = document.querySelectorAll('.agency-card');
 
+const callBridgePanel = document.querySelector('.call-bridge-panel');
 const callBridgeStatus = document.querySelector('#callBridgeStatus');
 const reporterParticipantState = document.querySelector('#reporterParticipantState');
 const dispatcherParticipantState = document.querySelector('#dispatcherParticipantState');
@@ -920,6 +923,9 @@ const focusTargets = {
 
 let currentStepIndex = 0;
 let playbackTimer = null;
+let ringTimer = null;
+let ringAudioContext = null;
+let ringNodes = [];
 let isRunning = false;
 let currentAudioStepId = null;
 let autoScrollEnabled = false;
@@ -1117,6 +1123,86 @@ function stopFallbackTimer() {
   playbackTimer = null;
 }
 
+function stopIncomingRing() {
+  window.clearTimeout(ringTimer);
+  ringTimer = null;
+  callBridgePanel?.classList.remove('ringing');
+  ringNodes.forEach((node) => {
+    try {
+      node.stop();
+    } catch {
+      // Oscillator may already be stopped.
+    }
+    try {
+      node.disconnect();
+    } catch {
+      // Node may already be disconnected.
+    }
+  });
+  ringNodes = [];
+}
+
+function scheduleRingTone(context, destination, startAt, duration) {
+  const gain = context.createGain();
+  const toneA = context.createOscillator();
+  const toneB = context.createOscillator();
+  toneA.type = 'sine';
+  toneB.type = 'sine';
+  toneA.frequency.setValueAtTime(440, startAt);
+  toneB.frequency.setValueAtTime(480, startAt);
+  gain.gain.setValueAtTime(0.0001, startAt);
+  gain.gain.exponentialRampToValueAtTime(0.12, startAt + 0.035);
+  gain.gain.setValueAtTime(0.12, startAt + duration - 0.045);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+  toneA.connect(gain);
+  toneB.connect(gain);
+  gain.connect(destination);
+  toneA.start(startAt);
+  toneB.start(startAt);
+  toneA.stop(startAt + duration + 0.02);
+  toneB.stop(startAt + duration + 0.02);
+  ringNodes.push(toneA, toneB);
+}
+
+async function playIncomingRingBefore(step) {
+  stopIncomingRing();
+  audioStatus.textContent = 'Incoming reporter call ringing';
+  spokenCaption.textContent = 'Ring… Maya’s one-tap report is connecting to dispatcher Arjun.';
+  callBridgePanel?.classList.add('ringing', 'sim-focus');
+  callBridgeStatus.textContent = 'Incoming reporter call';
+  reporterParticipantState.textContent = 'Calling';
+  dispatcherParticipantState.textContent = 'Ringing';
+  activeSpeakerLine.textContent = 'Ring… Sahaay is connecting Maya to Arjun before the live incident bridge opens.';
+  dispatcherRecSim.textContent = 'RINGING';
+  dispatcherRecSim.classList.add('live');
+  participantCards.forEach((card) => {
+    const participant = card.dataset.participant;
+    card.classList.toggle('live', participant === 'reporter' || participant === 'dispatcher');
+    card.classList.remove('speaking');
+  });
+
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      ringAudioContext = ringAudioContext || new AudioContextClass();
+      await ringAudioContext.resume();
+      const startAt = ringAudioContext.currentTime + 0.05;
+      scheduleRingTone(ringAudioContext, ringAudioContext.destination, startAt, 0.54);
+      scheduleRingTone(ringAudioContext, ringAudioContext.destination, startAt + 0.78, 0.54);
+    }
+  } catch {
+    audioStatus.textContent = 'Call ring unavailable; opening live bridge';
+  }
+
+  return new Promise((resolve) => {
+    ringTimer = window.setTimeout(() => {
+      stopIncomingRing();
+      if (steps[currentStepIndex]?.id === step.id) applyStep(currentStepIndex);
+      resolve();
+    }, CALL_RING_DURATION_MS);
+  });
+}
+
 function finishOrAdvance() {
   if (!isRunning) {
     updateControlState();
@@ -1146,6 +1232,16 @@ function playCurrentNarration() {
   if (!narrationToggle.checked || !step.audio) {
     audioStatus.textContent = 'Captions-only story mode';
     runTimedFallback();
+    return;
+  }
+
+  if (step.ringBefore && currentAudioStepId !== step.id && currentAudioStepId !== `${step.id}:ringing`) {
+    currentAudioStepId = `${step.id}:ringing`;
+    playIncomingRingBefore(step).then(() => {
+      if (!isRunning || steps[currentStepIndex]?.id !== step.id || !narrationToggle.checked) return;
+      currentAudioStepId = null;
+      playCurrentNarration();
+    });
     return;
   }
 
@@ -1182,6 +1278,7 @@ function exitJourneyMode() {
 
 function startStory() {
   stopFallbackTimer();
+  stopIncomingRing();
   storyAudio.pause();
   document.body.classList.add('journey-mode');
   autoScrollEnabled = true;
@@ -1196,6 +1293,7 @@ function startStory() {
 function pauseStory() {
   if (!isRunning) return;
   isRunning = false;
+  stopIncomingRing();
   storyAudio.pause();
   stopFallbackTimer();
   audioStatus.textContent = 'Paused by evaluator';
@@ -1214,6 +1312,7 @@ function continueStory() {
 function stopStoryAndApply(index) {
   isRunning = false;
   stopFallbackTimer();
+  stopIncomingRing();
   storyAudio.pause();
   storyAudio.currentTime = 0;
   currentAudioStepId = null;
@@ -1246,6 +1345,7 @@ jumpButtons.forEach((button) => {
 
 narrationToggle.addEventListener('change', () => {
   if (!narrationToggle.checked) {
+    stopIncomingRing();
     storyAudio.pause();
     audioStatus.textContent = 'Captions-only story mode';
     if (isRunning) runTimedFallback();
@@ -1256,6 +1356,7 @@ narrationToggle.addEventListener('change', () => {
 });
 
 window.addEventListener('beforeunload', () => {
+  stopIncomingRing();
   storyAudio.pause();
 });
 

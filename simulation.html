@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#07111f" />
     <meta name="description" content="Sahaay guided evaluator simulation showing a tree-fall vehicle rescue across reporter, dispatcher, fire/rescue, police and EMS workflows." />
     <title>Sahaay — Guided emergency response simulation</title>
-    <link rel="icon" href="assets/sahaay-mark-logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="assets/sahaay-mark-logo.png" />
+    <link rel="icon" href="assets/sahaay-mark-logo-transparent.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/sahaay-mark-logo-transparent.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -17,7 +17,7 @@
   <body class="simulation-page">
     <div class="noise" aria-hidden="true"></div>
     <header class="site-header simulation-header">
-      <a class="brand" href="index.html" aria-label="Sahaay home"><img class="brand-mark-img" src="assets/sahaay-mark-logo.png" alt="" /><span>SAHAAY</span></a>
+      <a class="brand" href="index.html" aria-label="Sahaay home"><img class="brand-mark-img" src="assets/sahaay-mark-logo-transparent.png" alt="" /><span>SAHAAY</span></a>
       <nav class="nav-links" id="simulationNav" aria-label="Simulation navigation">
         <a href="index.html#build">Build brief</a>
         <a href="demo-login.html">Role accounts</a>
@@ -46,7 +46,7 @@
           <div class="progress-track" aria-hidden="true"><i id="timelineProgress"></i></div>
         </div>
         <div class="control-buttons">
-          <button class="button button-primary" id="startSimulation" type="button">Start 3-minute journey <span>→</span></button>
+          <button class="button button-primary simulation-cta" id="startSimulation" type="button">Start guided 3-minute journey <span>→</span></button>
           <button class="sim-control" id="pauseSimulation" type="button">Pause</button>
           <button class="sim-control" id="continueSimulation" type="button">Continue</button>
           <button class="sim-control" id="stepSimulation" type="button">Step forward</button>
@@ -124,7 +124,7 @@
           </div>
           <div class="tablet-screen">
             <div class="role-splash" id="dispatcherSplash" aria-hidden="true">
-              <img class="splash-logo" src="assets/sahaay-mark-logo.png" alt="" />
+              <img class="splash-logo" src="assets/sahaay-mark-logo-transparent.png" alt="" />
               <strong>Sahaay dispatcher</strong>
               <small>Waiting for Maya’s one-tap report.</small>
             </div>
@@ -220,7 +220,7 @@
           </div>
           <div class="mobile-screen">
             <div class="role-splash" id="unitSplash" aria-hidden="true">
-              <img class="splash-logo" src="assets/sahaay-mark-logo.png" alt="" />
+              <img class="splash-logo" src="assets/sahaay-mark-logo-transparent.png" alt="" />
               <strong>Response unit standby</strong>
               <small>Route and handoff appear when Arjun dispatches EMS.</small>
             </div>

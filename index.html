@@ -7,8 +7,8 @@
     <meta name="description" content="Sahaay is an independent Indian emergency-response prototype for first reporters, dispatchers and response units. The guided demo shows a tree-fall vehicle rescue where one report becomes a verified multi-agency handoff." />
     <meta name="keywords" content="emergency response, first reporter, witness reporting, dispatcher, SOS, incident intelligence, India, public service prototype" />
     <title>Sahaay — Emergency response, with the full picture</title>
-    <link rel="icon" href="assets/sahaay-mark-logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="assets/sahaay-mark-logo.png" />
+    <link rel="icon" href="assets/sahaay-mark-logo-transparent.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/sahaay-mark-logo-transparent.png" />
     <script type="application/ld+json">
       {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Sahaay","applicationCategory":"PublicSafetyApplication","description":"An independent hackathon prototype for a reporter who may be the person in distress or someone reporting for them. Sahaay turns a one-tap report into a confidence-scored live bridge, dispatcher brief and multi-agency response handoff.","audience":["People reporting for themselves","Witnesses reporting for someone else","Emergency dispatchers","Police, fire and medical response units","Hackathon evaluators"],"featureList":["Recommended 3-minute guided evaluator simulation","One-tap self or witness incident reporting","Location and tower context","Safe camera guidance","Human-reviewed live incident bridge","Fire, police and EMS dispatch package","Code Blue escalation check","No-injury closure handoff","Human-controlled safe-scale model"],"isAccessibleForFree":true,"softwareVersion":"concept-spike-1","releaseNotes":"simulation.html is the canonical evaluator walkthrough. Synthetic data only; no live emergency-system integration."}
     </script>
@@ -17,13 +17,13 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="landing-page">
     <div class="noise" aria-hidden="true"></div>
+    <div class="page-bg-waves" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand brand-full" href="#top" aria-label="Sahaay home"><img class="brand-logo" src="assets/sahaay-logo.png" alt="" /></a>
+      <a class="brand brand-full" href="#top" aria-label="Sahaay home"><img class="brand-logo" src="assets/sahaay-logo-transparent.png" alt="" /></a>
       <nav class="nav-links" id="primaryNav" aria-label="Primary navigation">
         <a href="#build">What we’re building</a>
-        <a href="simulation.html">3-minute simulation</a>
         <a href="#why">Why Sahaay</a>
         <a href="#responders">For first reporters</a>
         <a href="#features">Features</a>
@@ -31,7 +31,7 @@
         <a href="#demo">Live concept</a>
       </nav>
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav"><span></span><span></span><span></span></button>
-      <a class="header-cta" href="simulation.html">Start evaluator simulation <span>↗</span></a>
+      <a class="header-cta header-sim-cta" href="simulation.html">Start 3-minute simulation <span>↗</span></a>
     </header>
 
     <main id="top">
@@ -42,14 +42,17 @@
           <p class="hero-lede">We are building a faster way to turn the first few seconds of an incident into a shared rescue picture. The evaluator simulation follows Maya reporting a van trapped under a fallen tree, then shows Arjun coordinating fire/rescue, police and EMS to a no-injury closure.</p>
           <p class="hybrid-positioning"><strong>What it is:</strong> an independent adaptation of the existing call-first emergency experience—a hybrid digital layer that works with calls, SMS, dispatchers and field teams.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a>
+            <div class="hero-proof-cta">
+              <span>Doubt Sahaay’s capability? Watch the rescue flow.</span>
+              <a class="button button-primary simulation-cta" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a>
+            </div>
             <a class="text-link" href="#why">The problem we’re solving <span>↗</span></a>
           </div>
           <div class="trust-row"><span>Tree-rescue scenario</span><span class="trust-line"></span><span>Pauseable journey</span><span class="trust-line"></span><span>Codex-built prototype</span></div>
         </div>
         <div class="hero-visual hero-visual-image" aria-label="Sahaay emergency-response app mockup showing reporter, dispatcher and response-unit screens for the tree-fall rescue">
-          <img class="hero-logo-overlay" src="assets/sahaay-logo.png" alt="Sahaay" />
-          <img src="assets/sahaay-hero-app-v3.jpg" alt="Sahaay emergency-response app mockup with reporter mobile, dispatcher tablet and response-unit mobile screens for a synthetic tree-fall rescue" />
+          <img class="hero-logo-overlay" src="assets/sahaay-logo-transparent.png" alt="Sahaay" />
+          <img src="assets/sahaay-hero-app-v4.png" alt="Sahaay emergency-response app mockup with reporter mobile, dispatcher tablet and response-unit mobile screens for a synthetic tree-fall rescue" />
           <span class="mockup-badge">Hybrid emergency-response app</span>
           <span class="mockup-caption">Reporter → dispatcher → fire / police / EMS handoff</span>
         </div>
@@ -67,7 +70,7 @@
           <li><strong>03</strong><span>Pause or step through highlighted UI actions</span></li>
           <li><strong>04</strong><span>Then inspect individual role accounts</span></li>
         </ol>
-        <a class="button button-primary" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a>
+        <a class="button button-primary simulation-cta" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a>
       </section>
 
       <section class="build-brief shell" id="build" aria-labelledby="build-title">
@@ -116,9 +119,9 @@
         </div>
       </section>
 
-      <section class="section demo-section" id="demo"><div class="shell"><div class="section-kicker"><span>04</span><span class="kicker-line"></span><span>Live concept</span></div><div class="demo-heading"><div><h2>See the report become <em>action.</em></h2><p><strong>Demo scenario:</strong> Maya reports a large van trapped under a fallen tree near Koramangala signal. All doors are jammed, passengers are responsive but injury status is unknown, so Arjun coordinates fire/rescue, police and EMS before closing with no injuries found. No live emergency systems or personal data are connected.</p></div><div class="demo-actions"><a class="button button-primary simulate-btn" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a><button class="button button-dark simulate-btn" id="simulateBtn" type="button">Quick console preview <span>→</span></button><small class="demo-action-note">Preview only — the guided simulation is the full demo.</small></div></div>
+      <section class="section demo-section" id="demo"><div class="shell"><div class="section-kicker"><span>04</span><span class="kicker-line"></span><span>Live concept</span></div><div class="demo-heading"><div><h2>See the report become <em>action.</em></h2><p><strong>Demo scenario:</strong> Maya reports a large van trapped under a fallen tree near Koramangala signal. All doors are jammed, passengers are responsive but injury status is unknown, so Arjun coordinates fire/rescue, police and EMS before closing with no injuries found. No live emergency systems or personal data are connected.</p></div><div class="demo-actions"><a class="button button-primary simulate-btn simulation-cta" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a><button class="button button-dark simulate-btn" id="simulateBtn" type="button">Quick console preview <span>→</span></button><small class="demo-action-note">Preview only — the guided simulation is the full demo.</small></div></div>
         <div class="demo-console">
-          <div class="console-sidebar"><div class="console-brand"><img class="brand-mark-img brand-mark-small" src="assets/sahaay-mark-logo.png" alt="" /> SAHAAY OPS</div><div class="console-nav active"><span>◉</span> Live incidents <b>01</b></div><div class="console-nav"><span>⌖</span> Response units</div><div class="console-nav"><span>▤</span> Activity log</div><div class="console-footer"><span class="online-dot"></span> Simulation mode<br /><small>All data is synthetic</small></div></div>
+          <div class="console-sidebar"><div class="console-brand"><img class="brand-mark-img brand-mark-small" src="assets/sahaay-mark-logo-transparent.png" alt="" /> SAHAAY OPS</div><div class="console-nav active"><span>◉</span> Live incidents <b>01</b></div><div class="console-nav"><span>⌖</span> Response units</div><div class="console-nav"><span>▤</span> Activity log</div><div class="console-footer"><span class="online-dot"></span> Simulation mode<br /><small>All data is synthetic</small></div></div>
           <div class="console-main"><div class="console-toolbar"><div><small>LIVE INCIDENTS / SIMULATION</small><h3 id="incidentTitle">Awaiting a signal</h3></div><span class="toolbar-time mono" id="toolbarTime">--:--:--</span></div>
             <div class="console-grid"><div class="incident-panel"><div class="panel-heading"><span class="status-pill muted" id="incidentStatus"><i></i> STANDBY</span><span class="mono">INC-2048</span></div><div class="reporter-mode" aria-label="Choose who is reporting"><span class="mode-label">REPORTER MODE</span><div class="mode-buttons"><button class="mode-button active" data-mode="self" type="button">For myself</button><button class="mode-button" data-mode="other" type="button">For someone else</button></div><small id="modeHint">A dispatcher call can be offered with your permission.</small></div><div class="big-signal" id="bigSignal">No active incident</div><p class="panel-copy" id="panelCopy">Run the simulation to see how Sahaay assembles context for a reporter and response unit.</p><div class="sensor-list"><div><span class="sensor-dot"></span><span>Location</span><b id="sensorLocation">—</b></div><div><span class="sensor-dot"></span><span>Call</span><b id="sensorCall">—</b></div><div><span class="sensor-dot"></span><span>Tower</span><b id="sensorNetwork">—</b></div><div><span class="sensor-dot"></span><span>Battery</span><b id="sensorBattery">—</b></div></div><div class="evidence-tools"><div class="evidence-tool"><span class="evidence-icon">▧</span><div><strong>Photo evidence</strong><small id="photoStatus">Optional · synthetic</small></div><button class="evidence-button" id="photoBtn" type="button">Add</button><input id="photoInput" type="file" accept="image/*" capture="environment" hidden /></div><div class="evidence-tool"><span class="evidence-icon audio">◉</span><div><strong>Dispatcher call</strong><small id="audioStatus">Permission required</small></div><button class="evidence-button" id="audioBtn" type="button">Open</button></div></div><div class="confidence"><span>Context confidence</span><strong id="confidenceValue">—</strong><div class="confidence-bar"><i id="confidenceBar"></i></div></div></div>
               <div class="map-panel"><div class="map-toolbar"><span>INCIDENT MAP</span><span class="map-live"><i></i> LIVE</span></div><div class="large-map map-image"><img src="assets/incident-map-evaluator-v2.jpg" alt="Synthetic dark incident map with Fire F-03, Ambulance A-27, Police P-12 and backup B-14 routes converging on INC-2048" /><span class="map-caption" id="mapCaption">No incident location yet</span></div><div class="unit-status"><span><i class="unit-dot"></i> Fire F-03 · EMS A-27 · Police P-12</span><b id="unitEta">—</b></div></div></div>
@@ -173,7 +176,7 @@
         </div>
       </section>
 
-      <section class="closing shell"><div class="closing-mark">+</div><p class="eyebrow">A better starting point</p><h2>Emergency response should feel like someone has already started helping.</h2><a class="button button-dark" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a><p class="closing-secondary"><a class="text-link" href="demo-login.html">Explore individual role accounts after the simulation <span>↗</span></a></p></section>
+      <section class="closing shell"><div class="closing-mark">+</div><p class="eyebrow">A better starting point</p><h2>Emergency response should feel like someone has already started helping.</h2><a class="button button-dark simulation-cta" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a><p class="closing-secondary"><a class="text-link" href="demo-login.html">Explore individual role accounts after the simulation <span>↗</span></a></p></section>
     </main>
     <footer class="site-footer shell"><span>© 2026 Sahaay concept</span><span>Independent prototype · Not an official government service</span><a href="#top">Back to top ↑</a></footer>
     <script src="menu.js"></script>

@@ -926,6 +926,8 @@ let playbackTimer = null;
 let ringTimer = null;
 let ringAudioContext = null;
 let ringNodes = [];
+let ringRunId = 0;
+let ringPlayedStepId = null;
 let isRunning = false;
 let currentAudioStepId = null;
 let autoScrollEnabled = false;
@@ -1062,6 +1064,8 @@ function updateControlState() {
 
 function applyStep(index) {
   const step = steps[index];
+  const previousStep = steps[currentStepIndex];
+  if (previousStep?.id !== step.id) ringPlayedStepId = null;
   currentStepIndex = index;
 
   elapsedTime.textContent = step.time;
@@ -1123,7 +1127,8 @@ function stopFallbackTimer() {
   playbackTimer = null;
 }
 
-function stopIncomingRing() {
+function stopIncomingRing({ invalidate = true } = {}) {
+  if (invalidate) ringRunId += 1;
   window.clearTimeout(ringTimer);
   ringTimer = null;
   callBridgePanel?.classList.remove('ringing');
@@ -1166,6 +1171,7 @@ function scheduleRingTone(context, destination, startAt, duration) {
 
 async function playIncomingRingBefore(step) {
   stopIncomingRing();
+  const activeRingRunId = ++ringRunId;
   audioStatus.textContent = 'Incoming reporter call ringing';
   spokenCaption.textContent = 'Ring… Maya’s one-tap report is connecting to dispatcher Arjun.';
   callBridgePanel?.classList.add('ringing', 'sim-focus');
@@ -1196,7 +1202,9 @@ async function playIncomingRingBefore(step) {
 
   return new Promise((resolve) => {
     ringTimer = window.setTimeout(() => {
-      stopIncomingRing();
+      if (activeRingRunId !== ringRunId) return;
+      ringPlayedStepId = step.id;
+      stopIncomingRing({ invalidate: false });
       if (steps[currentStepIndex]?.id === step.id) applyStep(currentStepIndex);
       resolve();
     }, CALL_RING_DURATION_MS);
@@ -1235,7 +1243,7 @@ function playCurrentNarration() {
     return;
   }
 
-  if (step.ringBefore && currentAudioStepId !== step.id && currentAudioStepId !== `${step.id}:ringing`) {
+  if (step.ringBefore && ringPlayedStepId !== step.id && currentAudioStepId !== `${step.id}:ringing`) {
     currentAudioStepId = `${step.id}:ringing`;
     playIncomingRingBefore(step).then(() => {
       if (!isRunning || steps[currentStepIndex]?.id !== step.id || !narrationToggle.checked) return;
@@ -1283,6 +1291,7 @@ function startStory() {
   document.body.classList.add('journey-mode');
   autoScrollEnabled = true;
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  ringPlayedStepId = null;
   currentAudioStepId = null;
   isRunning = true;
   applyStep(0);
@@ -1293,6 +1302,10 @@ function startStory() {
 function pauseStory() {
   if (!isRunning) return;
   isRunning = false;
+  if (currentAudioStepId === `${steps[currentStepIndex]?.id}:ringing`) {
+    currentAudioStepId = null;
+    ringPlayedStepId = null;
+  }
   stopIncomingRing();
   storyAudio.pause();
   stopFallbackTimer();
@@ -1315,6 +1328,7 @@ function stopStoryAndApply(index) {
   stopIncomingRing();
   storyAudio.pause();
   storyAudio.currentTime = 0;
+  ringPlayedStepId = null;
   currentAudioStepId = null;
   document.body.classList.add('journey-mode');
   autoScrollEnabled = true;

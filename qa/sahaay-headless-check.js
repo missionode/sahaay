@@ -35,13 +35,13 @@ async function run() {
       await expectText(page, '.demo-action-note', 'Preview only', 'quick console note');
       assert(await page.getByRole('link', { name: /Start 3-minute evaluator simulation/i }).first().isVisible(), 'primary evaluator CTA should be visible');
       const faviconHref = await page.locator('link[rel="icon"]').getAttribute('href');
-      assert(faviconHref && faviconHref.includes('sahaay-mark-logo.png'), `landing: wrong favicon ${faviconHref}`);
+      assert(faviconHref && faviconHref.includes('sahaay-mark-logo-transparent.png'), `landing: wrong favicon ${faviconHref}`);
       const brandLogoSrc = await page.locator('.brand-logo').getAttribute('src');
-      assert(brandLogoSrc && brandLogoSrc.includes('sahaay-logo.png'), `landing: wrong brand logo ${brandLogoSrc}`);
+      assert(brandLogoSrc && brandLogoSrc.includes('sahaay-logo-transparent.png'), `landing: wrong brand logo ${brandLogoSrc}`);
       const heroSrc = await page.locator('.hero-visual-image > img:not(.hero-logo-overlay)').getAttribute('src');
-      assert(heroSrc && heroSrc.includes('sahaay-hero-app-v3.jpg'), `landing: wrong hero src ${heroSrc}`);
+      assert(heroSrc && heroSrc.includes('sahaay-hero-app-v4.png'), `landing: wrong hero src ${heroSrc}`);
       const heroLogoSrc = await page.locator('.hero-logo-overlay').getAttribute('src');
-      assert(heroLogoSrc && heroLogoSrc.includes('sahaay-logo.png'), `landing: wrong hero logo overlay ${heroLogoSrc}`);
+      assert(heroLogoSrc && heroLogoSrc.includes('sahaay-logo-transparent.png'), `landing: wrong hero logo overlay ${heroLogoSrc}`);
       const heroRatio = await page.locator('.hero-visual-image').evaluate((element) => {
         const rect = element.getBoundingClientRect();
         return rect.width / rect.height;
@@ -77,6 +77,10 @@ async function run() {
       await expectText(page, '#callBridgeStatus', 'Incoming reporter call', 'simulation ring bridge status');
       await expectText(page, '#spokenCaption', 'Ring… Maya’s one-tap report is connecting', 'simulation ring caption');
       assert((await page.locator('.call-bridge-panel').getAttribute('class')).includes('ringing'), 'call bridge should show ringing state');
+      await page.waitForTimeout(2200);
+      await expectText(page, '#stepTitle', 'Maya reports the incident', 'simulation should stay on Maya after ring');
+      await expectText(page, '#audioStatus', 'Playing Maya line', 'simulation should play Maya after ring');
+      assert(!(await page.locator('.call-bridge-panel').getAttribute('class')).includes('ringing'), 'call bridge ringing state should stop');
       await page.locator('#pauseSimulation').click();
     });
 
@@ -84,7 +88,7 @@ async function run() {
       await page.goto(`${baseURL}/demo-login.html`, { waitUntil: 'networkidle' });
       await expectText(page, '.simulation-entry h2', 'Start with the 3-minute evaluator simulation.', 'role gateway recommendation');
       const gatewayMark = await page.locator('.brand-mark-img').first().getAttribute('src');
-      assert(gatewayMark && gatewayMark.includes('sahaay-mark-logo.png'), `role gateway: wrong brand mark ${gatewayMark}`);
+      assert(gatewayMark && gatewayMark.includes('sahaay-mark-logo-transparent.png'), `role gateway: wrong brand mark ${gatewayMark}`);
       await page.getByRole('button', { name: /Launch dispatcher view/i }).click();
       assert(page.url().includes('role=dispatcher'), `dispatcher launch URL mismatch: ${page.url()}`);
       await expectText(page, '#viewTitle', 'Dispatcher view', 'dispatcher view title');

@@ -1302,6 +1302,7 @@ function exitJourneyMode() {
 
 function startStory() {
   hideCompletionActions();
+  document.body.classList.add('simulation-started');
   stopFallbackTimer();
   stopIncomingRing();
   storyAudio.pause();
@@ -1332,6 +1333,7 @@ function pauseStory() {
 
 function continueStory() {
   if (currentStepIndex >= steps.length - 1) return;
+  document.body.classList.add('simulation-started');
   document.body.classList.add('journey-mode');
   autoScrollEnabled = true;
   isRunning = true;
@@ -1341,6 +1343,7 @@ function continueStory() {
 
 function stopStoryAndApply(index) {
   hideCompletionActions();
+  document.body.classList.add('simulation-started');
   isRunning = false;
   stopFallbackTimer();
   stopIncomingRing();

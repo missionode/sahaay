@@ -148,6 +148,14 @@
   opacity: .38;
 }
 
+/* Keep the evaluator's first action unmistakable. Secondary controls appear
+   once the journey has started or a checkpoint has been selected. */
+.simulation-page:not(.simulation-started) #continueSimulation,
+.simulation-page:not(.simulation-started) #stepSimulation,
+.simulation-page:not(.simulation-started) #restartSimulation {
+  display: none;
+}
+
 .sim-toggles {
   display: grid;
   gap: 7px;

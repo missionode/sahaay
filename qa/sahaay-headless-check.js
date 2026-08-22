@@ -56,9 +56,17 @@ async function run() {
     await withConsoleWatch(page, 'simulation controls', async () => {
       await page.goto(`${baseURL}/simulation.html`, { waitUntil: 'networkidle' });
       assert(await page.locator('#startSimulation').isVisible(), 'simulation: start button visible');
+      assert(!(await page.locator('#continueSimulation').isVisible()), 'simulation: continue should stay hidden before start');
+      assert(!(await page.locator('#stepSimulation').isVisible()), 'simulation: step should stay hidden before start');
+      assert(!(await page.locator('#restartSimulation').isVisible()), 'simulation: restart should stay hidden before start');
+      assert(await page.locator('#simulationNav').getByRole('link', { name: 'Quick console' }).count() === 1, 'simulation: quick console should be in the menu');
+      assert(await page.locator('#simulationNav').getByRole('link', { name: 'Role accounts' }).count() === 1, 'simulation: role accounts should be in the menu');
       await page.locator('#narrationToggle').uncheck();
       await page.locator('#startSimulation').click();
       assert((await page.locator('body').getAttribute('class')).includes('journey-mode'), 'simulation: should enter journey mode');
+      assert(await page.locator('#continueSimulation').isVisible(), 'simulation: continue should appear after start');
+      assert(await page.locator('#stepSimulation').isVisible(), 'simulation: step should appear after start');
+      assert(await page.locator('#restartSimulation').isVisible(), 'simulation: restart should appear after start');
       assert(await page.locator('#exitJourney').isVisible(), 'simulation: exit full view visible');
       await expectText(page, '#stepTitle', 'Tree-rescue simulation ready', 'simulation initial beat');
       await page.locator('#pauseSimulation').click();

@@ -66,8 +66,10 @@ function addTimeline(title, detail) {
 }
 
 async function simulateIncident() {
-  simulateBtn.disabled = true;
-  simulateBtn.innerHTML = 'Running tree rescue <span>…</span>';
+  if (simulateBtn) {
+    simulateBtn.disabled = true;
+    simulateBtn.innerHTML = 'Running tree rescue <span>…</span>';
+  }
   incidentTitle.textContent = 'Tree rescue report received';
   incidentStatus.classList.remove('muted');
   incidentStatus.innerHTML = '<i></i> LIVE BRIDGE';
@@ -94,8 +96,17 @@ async function simulateIncident() {
   incidentStatus.innerHTML = '<i></i> FIRE + EMS + POLICE';
   unitEta.textContent = 'F03 06:10 · A27 04:20 · P12 03:10';
   addTimeline('Fire F-03 + Ambulance A-27 + Police P-12 notified', 'Tree cutting, safe exit access, medical assessment and traffic control');
-  simulateBtn.disabled = false;
-  simulateBtn.innerHTML = 'Run preview again <span>↻</span>';
+  if (simulateBtn) {
+    simulateBtn.disabled = false;
+    simulateBtn.innerHTML = 'Run preview again <span>↻</span>';
+  }
 }
 
-simulateBtn.addEventListener('click', simulateIncident);
+simulateBtn?.addEventListener('click', simulateIncident);
+
+if (new URLSearchParams(window.location.search).get('quick') === '1') {
+  window.setTimeout(() => {
+    document.querySelector('#demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    simulateIncident();
+  }, 250);
+}

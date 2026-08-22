@@ -32,7 +32,8 @@ async function run() {
       await page.goto(`${baseURL}/index.html`, { waitUntil: 'networkidle' });
       assert((await page.title()).includes('Sahaay'), 'landing: title should include Sahaay');
       await expectText(page, '.path-kicker', 'Recommended evaluation path', 'landing path panel');
-      await expectText(page, '.demo-action-note', 'Preview only', 'quick console note');
+      assert(await page.locator('#simulateBtn').count() === 0, 'landing: quick console CTA should be moved to the simulation completion');
+      assert(await page.getByRole('link', { name: /Explore individual role accounts after the simulation/i }).count() === 0, 'landing: role-account CTA should be moved to the simulation completion');
       assert(await page.getByRole('link', { name: /Start 3-minute evaluator simulation/i }).first().isVisible(), 'primary evaluator CTA should be visible');
       const faviconHref = await page.locator('link[rel="icon"]').getAttribute('href');
       assert(faviconHref && faviconHref.includes('sahaay-mark-logo-transparent.png'), `landing: wrong favicon ${faviconHref}`);
@@ -67,6 +68,10 @@ async function run() {
       assert((await page.locator('#dispatcherDevice').getAttribute('class')).includes('active'), 'dispatcher device should become active');
       await page.locator('#exitJourney').click();
       assert(!(await page.locator('body').getAttribute('class')).includes('journey-mode'), 'simulation: should exit journey mode');
+      await page.locator('.step-jump button[data-step="15"]').click();
+      assert(await page.locator('#completionActions').isVisible(), 'simulation: completion actions should appear at final checkpoint');
+      assert(await page.getByRole('link', { name: /Open quick console preview/i }).getAttribute('href') === 'index.html?quick=1#demo', 'simulation: quick console completion link mismatch');
+      assert(await page.getByRole('link', { name: /Explore role accounts/i }).getAttribute('href') === 'demo-login.html', 'simulation: role accounts completion link mismatch');
     });
 
     await withConsoleWatch(page, 'simulation call ring', async () => {

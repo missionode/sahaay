@@ -28,7 +28,7 @@ Checked on: 2026-08-21
 | Live public browser link without access request | Pass | GitHub Pages is enabled at `https://missionode.github.io/sahaay/`. Public URL returned HTTP 200 after build. |
 | Mock login credentials if needed | Pass | `demo-login.html` has reporter, dispatcher and response-unit demo accounts. |
 | One video no longer than two minutes | Pending/blocker | Need final recording: first minute citizen/demo, second minute build rationale. |
-| Project summary under 250 words | Pass | Final summary is saved in `SUBMISSION-SUMMARY.md` for the submission form and now mentions Codex CLI/headless QA usage. |
+| Project summary under 250 words | Pass | Final summary is saved in `SUBMISSION-SUMMARY.md` for the submission form and explains the current-system gap, Sahaay’s improvement, Codex + Loop use and headless QA. |
 | Every link works without requesting access | Partial | Local links and the core browser journey pass headless checks. Public link must be created and checked after deployment. |
 
 ## Recommended next order

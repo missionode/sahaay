@@ -846,6 +846,7 @@ const narrationToggle = document.querySelector('#narrationToggle');
 const audioStatus = document.querySelector('#audioStatus');
 const storyAudio = document.querySelector('#storyAudio');
 const jumpButtons = document.querySelectorAll('.step-jump button');
+const completionActions = document.querySelector('#completionActions');
 
 const dispatcherSplash = document.querySelector('#dispatcherSplash');
 const unitSplash = document.querySelector('#unitSplash');
@@ -931,6 +932,20 @@ let ringPlayedStepId = null;
 let isRunning = false;
 let currentAudioStepId = null;
 let autoScrollEnabled = false;
+
+function hideCompletionActions() {
+  if (completionActions) completionActions.hidden = true;
+}
+
+function showCompletionActions() {
+  if (!completionActions) return;
+  completionActions.hidden = false;
+  document.body.classList.remove('journey-mode');
+  autoScrollEnabled = false;
+  window.requestAnimationFrame(() => {
+    completionActions.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
 
 function clearChildren(node) {
   while (node.firstChild) node.removeChild(node.firstChild);
@@ -1220,6 +1235,7 @@ function finishOrAdvance() {
     isRunning = false;
     audioStatus.textContent = currentStepIndex >= steps.length - 1 ? 'Story complete' : 'Paused after beat';
     updateControlState();
+    if (currentStepIndex >= steps.length - 1) showCompletionActions();
     return;
   }
   applyStep(currentStepIndex + 1);
@@ -1285,6 +1301,7 @@ function exitJourneyMode() {
 }
 
 function startStory() {
+  hideCompletionActions();
   stopFallbackTimer();
   stopIncomingRing();
   storyAudio.pause();
@@ -1323,6 +1340,7 @@ function continueStory() {
 }
 
 function stopStoryAndApply(index) {
+  hideCompletionActions();
   isRunning = false;
   stopFallbackTimer();
   stopIncomingRing();
@@ -1334,6 +1352,7 @@ function stopStoryAndApply(index) {
   autoScrollEnabled = true;
   audioStatus.textContent = 'Beat selected; press continue for audio';
   applyStep(index);
+  if (index >= steps.length - 1) showCompletionActions();
 }
 
 startSimulation.addEventListener('click', startStory);

@@ -943,7 +943,8 @@ function showCompletionActions() {
   document.body.classList.remove('journey-mode');
   autoScrollEnabled = false;
   window.requestAnimationFrame(() => {
-    completionActions.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const top = Math.max(completionActions.offsetTop - 92, 0);
+    window.scrollTo({ top, behavior: 'smooth' });
   });
 }
 

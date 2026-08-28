@@ -16,6 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="story-reader.css" />
   </head>
   <body class="landing-page">
     <div class="noise" aria-hidden="true"></div>
@@ -50,11 +51,14 @@
           </div>
           <div class="trust-row"><span>Tree-rescue scenario</span><span class="trust-line"></span><span>Pauseable journey</span><span class="trust-line"></span><span>Codex + Loop build</span></div>
         </div>
-        <div class="hero-visual hero-visual-image" aria-label="Sahaay emergency-response app mockup showing reporter, dispatcher and response-unit screens for the tree-fall rescue">
-          <img class="hero-logo-overlay" src="assets/sahaay-logo-transparent.png" alt="Sahaay" />
-          <img src="assets/sahaay-hero-app-v4.png" alt="Sahaay emergency-response app mockup with reporter mobile, dispatcher tablet and response-unit mobile screens for a synthetic tree-fall rescue" />
-          <span class="mockup-badge">Hybrid emergency-response app</span>
-          <span class="mockup-caption">Reporter → dispatcher → fire / police / EMS handoff</span>
+        <div class="hero-visual hero-visual-image hero-story-visual" aria-label="Sahaay comic-style story showing a reporter, dispatcher and response teams coordinating a tree-blocked vehicle rescue">
+          <img class="hero-story-image" src="assets/sahaay-story-lander.png" alt="Sahaay illustrated banner showing Maya's first report, Arjun's incident bridge and coordinated fire, police and ambulance response" />
+          <span class="mockup-badge">Interactive story · 8 panels</span>
+          <span class="mockup-caption">Read the report → bridge → response → closure</span>
+          <div class="story-launch-card">
+            <div><strong>Follow Sahaay’s rescue story</strong><small>Move the magnifier across the panels</small></div>
+            <div class="story-launch-actions"><button class="story-launch-button story-play-button" id="playStoryButton" type="button">Play story <span>▶</span></button></div>
+          </div>
         </div>
       </section>
 
@@ -179,7 +183,30 @@
       <section class="closing shell"><div class="closing-mark">+</div><p class="eyebrow">A better starting point</p><h2>Emergency response should feel like someone has already started helping.</h2><a class="button button-dark simulation-cta" href="simulation.html">Start 3-minute evaluator simulation <span>↗</span></a></section>
     </main>
     <footer class="site-footer shell"><span>© 2026 Sahaay concept</span><span>Independent prototype · Not an official government service</span><a href="#top">Back to top ↑</a></footer>
+    <div class="story-reader" id="storyReader" hidden aria-hidden="true">
+      <div class="story-reader-backdrop" data-story-close></div>
+      <section class="story-reader-dialog" role="dialog" aria-modal="true" aria-labelledby="storyReaderTitle">
+        <header class="story-reader-header">
+          <div><span class="story-reader-kicker">Sahaay story mode</span><h2 id="storyReaderTitle">One report becomes a coordinated rescue.</h2></div>
+          <button class="story-reader-close" type="button" data-story-close aria-label="Close story reader">×</button>
+        </header>
+        <div class="story-reader-progress"><span id="storyPanelLabel">Panel 1 of 8</span><div><i id="storyProgressBar"></i></div><strong id="storyPanelTitle">Incident discovery</strong></div>
+        <div class="story-reader-stage" id="storyReaderStage" tabindex="0" aria-label="Interactive Sahaay comic story. Move your pointer over the story to use the magnifier.">
+          <div class="story-image-wrap" id="storyImageWrap">
+            <img id="storyReaderImage" src="assets/sahaay-story.png" alt="Sahaay comic story" />
+            <span class="story-focus-frame" id="storyFocusFrame" aria-hidden="true"></span>
+            <span class="story-lens" id="storyLens" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="story-reader-footer">
+          <p id="storyPanelCaption">Maya discovers the van trapped beneath the fallen tree.</p>
+          <div class="story-reader-hint"><span>⌕</span> Move over the image to magnify the story</div>
+          <div class="story-reader-controls"><button class="story-control" id="storyPrevious" type="button">← Previous</button><button class="story-control story-control-primary" id="storyPlayToggle" type="button">Play story <span>▶</span></button><button class="story-control" id="storyNext" type="button">Next →</button></div>
+        </div>
+      </section>
+    </div>
     <script src="menu.js"></script>
     <script src="app.js"></script>
+    <script src="story-reader.js"></script>
   </body>
 </html>

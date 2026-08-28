@@ -96,3 +96,6 @@
 @media(max-width:510px){.landing-page{background:radial-gradient(circle at 0 5%,rgba(255,110,74,.15),transparent 18rem),radial-gradient(circle at 100% 4%,rgba(216,246,106,.17),transparent 17rem),linear-gradient(180deg,#fffdf8 0%,#f8f3ea 45%,#fcfbf7 100%)}.page-bg-waves:before{left:-36vw;right:-36vw;top:-24px;height:340px}.page-bg-waves:after{left:-42vw;right:-42vw;top:500px;height:340px}.landing-page .site-header:after{left:12%;right:12%}.landing-page .hero:before{display:none}}
 .site-header{padding-inline:clamp(14px,2vw,24px)}
 @media(max-width:850px){.site-header{padding:12px 14px}}
+.landing-page .site-header{position:sticky;top:0;z-index:1000}
+@media(max-width:850px){.landing-page .site-header .nav-links{z-index:1001}.landing-page .site-header .menu-toggle{z-index:1002}}
+@media(max-width:850px){.landing-page .site-header .nav-links{position:fixed;top:74px;left:0;right:0;z-index:1100;background:rgba(252,251,247,.99);box-shadow:0 24px 48px rgba(7,17,31,.2)}}

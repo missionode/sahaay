@@ -1,3 +1,4 @@
+// Serve the static client bundle with an explicit root-page fallback.
 const worker = {
   async fetch(request, env) {
     const url = new URL(request.url);
